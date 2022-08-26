@@ -3,14 +3,15 @@ package com.hotel.management.services;
 import java.util.List;
 
 import com.hotel.management.dto.RoomDto;
+import com.hotel.management.entity.Room;
 
 public interface RoomService {
 
-	public RoomDto saveRoom(RoomDto room);
+	public RoomDto saveRoom(Room room);
 
-	public RoomDto updateRoom(RoomDto room);
+	public RoomDto updateRoom(Room room);
 
-	public RoomDto deleteRoom(RoomDto room);
+	public Boolean deleteRoom(int roomId);
 
 	public List<RoomDto> showAllRooms();
 

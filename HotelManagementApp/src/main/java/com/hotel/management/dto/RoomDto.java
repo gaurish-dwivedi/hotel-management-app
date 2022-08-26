@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomDto {
 
-	private int id;
+	private int roomId;
 
 	private int price;
 
