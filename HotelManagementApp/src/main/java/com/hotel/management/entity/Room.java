@@ -1,15 +1,30 @@
 package com.hotel.management.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "rooms")
-public class Room {
+public class Room implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Room() {
+		super();
+
+	}
 
 	@Id
 	@Column(name = "roomId")
@@ -20,6 +35,12 @@ public class Room {
 	private String type;
 	@Column(name = "roomAvailablity")
 	private boolean availablity;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinTable(name = "Bookings", joinColumns = {
+			@JoinColumn(name = "roomId", referencedColumnName = "roomId") }, inverseJoinColumns = {
+					@JoinColumn(name = "email", referencedColumnName = "email") })
+	private User user;
 
 	public int getId() {
 		return id;
@@ -45,7 +66,7 @@ public class Room {
 		this.type = type;
 	}
 
-	public boolean isAvailablity() {
+	public boolean getAvailablity() {
 		return availablity;
 	}
 
@@ -53,9 +74,17 @@ public class Room {
 		this.availablity = availablity;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(availablity, id, price, type);
+		return Objects.hash(availablity, id, price, type, user);
 	}
 
 	@Override
@@ -67,13 +96,14 @@ public class Room {
 		if (getClass() != obj.getClass())
 			return false;
 		Room other = (Room) obj;
-		return availablity == other.availablity && id == other.id && Objects.equals(price, other.price)
-				&& Objects.equals(type, other.type);
+		return availablity == other.availablity && id == other.id && price == other.price
+				&& Objects.equals(type, other.type) && Objects.equals(user, other.user);
 	}
 
 	@Override
 	public String toString() {
-		return "RoomDto [id=" + id + ", price=" + price + ", type=" + type + ", availablity=" + availablity + "]";
+		return "Room [id=" + id + ", price=" + price + ", type=" + type + ", availablity=" + availablity + ", user="
+				+ user + "]";
 	}
 
 }

@@ -1,24 +1,42 @@
 package com.hotel.management.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private User() {
+		super();
+	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "userId")
 	private int id;
 
 	@Column(name = "firstname")
 	private String firstName;
 
-	@Column(name = "lastname")
+	@Column(name = "lastname") 
 	private String lastName;
 
 	@Column(name = "email")
@@ -29,6 +47,12 @@ public class User {
 
 	@Column(name = "role")
 	private String role;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Bookings", joinColumns = {
+			@JoinColumn(name = "email", referencedColumnName = "email") }, inverseJoinColumns = {
+					@JoinColumn(name = "roomId", referencedColumnName = "roomId") })
+	private Set<Room> rooms;
 
 	public int getId() {
 		return id;
@@ -78,9 +102,17 @@ public class User {
 		this.role = role;
 	}
 
+	public Set<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(Set<Room> rooms) {
+		this.rooms = rooms;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, id, lastName, password, role);
+		return Objects.hash(email, firstName, id, lastName, password, role, rooms);
 	}
 
 	@Override
@@ -94,13 +126,14 @@ public class User {
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& Objects.equals(role, other.role);
+				&& Objects.equals(role, other.role) && Objects.equals(rooms, other.rooms);
 	}
+
 
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", role=" + role + ", rooms=" + rooms + "]";
 	}
 
 }

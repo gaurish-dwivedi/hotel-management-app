@@ -34,12 +34,11 @@ public class UserRestController {
 		return ResponseEntity.status(HttpStatus.OK).body(userServiceImpl.findAllUsers());
 
 	}
-	
-	@GetMapping({"/{email}"})
-	public ResponseEntity<UserDto> getUserDetails(@PathVariable("email") String email)
-	{
+
+	@GetMapping({ "/{email}" })
+	public ResponseEntity<UserDto> getUserDetails(@PathVariable("email") String email) {
 		return ResponseEntity.status(HttpStatus.OK).body(userServiceImpl.findUserByEmail(email));
-		
+
 	}
 
 	@PostMapping
@@ -57,11 +56,10 @@ public class UserRestController {
 	}
 
 	@DeleteMapping("/{email}")
-	public ResponseEntity<Boolean> deleteUser(@PathVariable("email") String email)
-	{
-		
+	public ResponseEntity<Boolean> deleteUser(@PathVariable("email") String email) {
+
 		return ResponseEntity.status(HttpStatus.OK).body(userServiceImpl.deleteUser(email));
-		
+
 	}
 
 }

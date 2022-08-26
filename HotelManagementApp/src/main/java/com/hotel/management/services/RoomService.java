@@ -17,4 +17,10 @@ public interface RoomService {
 
 	public List<RoomDto> showAllRoomsByType(String type);
 
+	public String bookRoom(String email, int roomId);
+
+	final String Not_Booked = "Not Booked!!! Currently This Room Not Available";
+
+	final String Booked = "Room Booked";
+
 }

@@ -31,8 +31,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto updateUser(User user) {
+		User currentUser = null;
+		if (userRepository.findUserByEmail(user.getEmail()) != null) {
+			currentUser = userRepository.findUserByEmail(user.getEmail());
+			user.setId(currentUser.getId());
+			modelMapper.map(user, currentUser);
+		}
 
-		return modelMapper.map(userRepository.save(user), UserDto.class);
+		return modelMapper.map(userRepository.save(currentUser), UserDto.class);
 	}
 
 	@Override
@@ -47,7 +53,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDto> findAllUsers() {
-
 		return modelMapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>() {
 		}.getType());
 
@@ -55,10 +60,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto findUserByEmail(String email) {
-		User currentUser=userRepository.findUserByEmail(email);
+		User currentUser = userRepository.findUserByEmail(email);
 		UserDto dtoUserDto = new UserDto();
-		if(currentUser!= null)
-			return modelMapper.map(currentUser,UserDto.class);
+		if (currentUser != null)
+			return modelMapper.map(currentUser, UserDto.class);
 		else
 			return dtoUserDto;
 	}

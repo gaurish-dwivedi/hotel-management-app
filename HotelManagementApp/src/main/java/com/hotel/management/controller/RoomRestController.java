@@ -55,4 +55,10 @@ public class RoomRestController {
 
 	}
 
+	@PutMapping("/{email}/{roomno}")
+	public ResponseEntity<String> bookRoom(@PathVariable("email") String email, @PathVariable("roomno") int roomNo) {
+		return ResponseEntity.status(HttpStatus.OK).body(roomServiceImpl.bookRoom(email, roomNo));
+
+	}
+
 }

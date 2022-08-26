@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.hotel.management.dto.RoomDto;
 import com.hotel.management.entity.Room;
+import com.hotel.management.entity.User;
 import com.hotel.management.repository.RoomRepository;
+import com.hotel.management.repository.UserRepository;
 
 @Service
 @Transactional
@@ -22,6 +24,9 @@ public class RoomServiceImpl implements RoomService {
 
 	@Autowired
 	RoomRepository roomRepository;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@Override
 	public RoomDto saveRoom(Room room) {
@@ -57,6 +62,26 @@ public class RoomServiceImpl implements RoomService {
 
 		return modelMapper.map(roomRepository.findRoomByType(type), new TypeToken<List<RoomDto>>() {
 		}.getType());
+	}
+
+	@Override
+	public String bookRoom(String email, int roomId) {
+
+		String bookingStatus = RoomService.Not_Booked;
+
+		Room roomBooked = roomRepository.findById(roomId).get();
+
+		if (roomBooked.getAvailablity()) {
+			roomBooked.setAvailablity(false);
+			bookingStatus = RoomService.Booked;
+		}
+
+		User currentUser = userRepository.findUserByEmail(email);
+
+		roomBooked.setUser(currentUser);
+
+		return bookingStatus;
+
 	}
 
 }
