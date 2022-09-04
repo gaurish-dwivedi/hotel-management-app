@@ -8,8 +8,6 @@ import com.hotel.management.entity.Room;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
 
-	public Room findRoomByType(String type);
-
 	public Integer deleteRoomById(Integer roomId);
 
 }

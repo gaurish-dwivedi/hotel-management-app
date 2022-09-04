@@ -58,13 +58,6 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public List<RoomDto> showAllRoomsByType(String type) {
-
-		return modelMapper.map(roomRepository.findRoomByType(type), new TypeToken<List<RoomDto>>() {
-		}.getType());
-	}
-
-	@Override
 	public String bookRoom(String email, int roomId) {
 
 		String bookingStatus = RoomService.Not_Booked;

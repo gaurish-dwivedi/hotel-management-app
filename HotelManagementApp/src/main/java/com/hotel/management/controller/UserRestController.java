@@ -21,6 +21,7 @@ import com.hotel.management.services.UserServiceImpl;
 
 @RestController
 @RequestMapping("/users")
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class UserRestController {
 
 	@Autowired
@@ -29,6 +30,7 @@ public class UserRestController {
 	@Autowired
 	ModelMapper modelMapper;
 
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getAllUser() {
 		return ResponseEntity.status(HttpStatus.OK).body(userServiceImpl.findAllUsers());
